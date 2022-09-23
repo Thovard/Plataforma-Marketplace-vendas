@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'image',
     ];
 
     /**
@@ -33,7 +34,7 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    /**
+    /**s
      * The attributes that should be cast.
      *
      * @var array<string, string>
@@ -41,4 +42,26 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getUsers(string|null $search = null)
+    {
+            $users = $this->where(function ($query) use ($search) {
+             if ($search){
+                $query->where('email', $search);
+                $query->orwhere('name', 'LIKE', "%{$search}%");
+            }
+        })
+        ->with('comments')
+        ->paginate(15);
+
+        return $users;
+    }
+
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
 }
+
