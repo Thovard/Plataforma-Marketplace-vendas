@@ -2,7 +2,6 @@
 
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Admin\CommentController;
 
 define('LARAVEL_START', microtime(true));
 
